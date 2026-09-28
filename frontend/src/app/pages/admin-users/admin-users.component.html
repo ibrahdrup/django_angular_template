@@ -1,0 +1,28 @@
+<div class="page">
+  <h1>Manage Users</h1>
+
+  <div *ngIf="loading()" class="state-msg">Loading users…</div>
+  <div *ngIf="error()" class="state-msg error">{{ error() }}</div>
+  <div *ngIf="message()" class="state-msg success">{{ message() }}</div>
+
+  <table class="user-table" *ngIf="!loading()">
+    <thead>
+      <tr><th>Username</th><th>Email</th><th>Role</th><th>Active</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users()">
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>
+          <select [ngModel]="u.role" (ngModelChange)="changeRole(u, $event)">
+            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+          </select>
+        </td>
+        <td>{{ u.is_active ? 'Yes' : 'No' }}</td>
+        <td>
+          <button (click)="toggleActive(u)">{{ u.is_active ? 'Deactivate' : 'Activate' }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

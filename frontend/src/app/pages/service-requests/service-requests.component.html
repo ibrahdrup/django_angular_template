@@ -1,0 +1,101 @@
+<div class="page">
+  <h1>Service Requests</h1>
+
+  <section class="card" *ngIf="auth.hasRole('passenger')">
+    <h2>New Service Request</h2>
+    <form (ngSubmit)="createRequest()" class="inline-form">
+      <div class="field">
+        <label>Flight Number</label>
+        <input type="text" [(ngModel)]="newFlightNo" name="flightNo" placeholder="e.g. AA123" required />
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select [(ngModel)]="newCategory" name="category">
+          <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+      <div class="field wide">
+        <label>Details</label>
+        <textarea [(ngModel)]="newDetails" name="details" rows="2" required></textarea>
+      </div>
+      <button type="submit">Submit Request</button>
+    </form>
+    <div class="error" *ngIf="createError()">{{ createError() }}</div>
+    <div class="success" *ngIf="createSuccess()">Request submitted successfully.</div>
+  </section>
+
+  <section class="card" *ngIf="isStaff()">
+    <h2>Filters</h2>
+    <div class="inline-form">
+      <div class="field">
+        <label>Status</label>
+        <select [(ngModel)]="filterStatus" (ngModelChange)="load()">
+          <option value="">All</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select [(ngModel)]="filterCategory" (ngModelChange)="load()">
+          <option value="">All</option>
+          <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Flight No</label>
+        <input type="text" [(ngModel)]="filterFlightNo" (change)="load()" placeholder="e.g. AA123" />
+      </div>
+    </div>
+  </section>
+
+  <div *ngIf="loading()" class="state-msg">Loading requests…</div>
+  <div *ngIf="error()" class="state-msg error">{{ error() }}</div>
+  <div *ngIf="!loading() && requests().length === 0" class="state-msg">No service requests found.</div>
+
+  <div class="request-list" *ngIf="!loading()">
+    <div class="request-card" *ngFor="let r of requests()">
+      <div class="request-header">
+        <span class="badge" [ngClass]="r.status">{{ r.status }}</span>
+        <span class="flight">{{ r.flight_no }}</span>
+        <span class="category">{{ r.category }}</span>
+      </div>
+      <p class="details">{{ r.details }}</p>
+      <p class="meta" *ngIf="isStaff()">Requested by {{ r.passenger_username }} · {{ r.created_at | date:'medium' }}</p>
+      <p class="meta" *ngIf="r.assigned_to_username">Assigned to {{ r.assigned_to_username }}</p>
+      <p class="meta" *ngIf="r.resolution_notes">Resolution notes: {{ r.resolution_notes }}</p>
+
+      <div class="actions" *ngIf="isStaff()">
+        <select *ngIf="auth.hasRole('admin','ground_staff') && r.status !== 'resolved' && r.status !== 'rejected'"
+                (change)="assignStaff(r, $any($event.target).value)">
+          <option value="">Assign staff…</option>
+          <option *ngFor="let s of groundStaff()" [value]="s.id">{{ s.username }}</option>
+        </select>
+
+        <button *ngFor="let next of validNextStatuses(r.status)"
+                (click)="requestStatusChange(r, next)"
+                [ngClass]="next">
+          Mark {{ next }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="pendingAction() as action">
+    <div class="modal">
+      <h3>Confirm status change</h3>
+      <p>Change request #{{ action.request.id }} ({{ action.request.flight_no }}) from
+        <strong>{{ action.request.status }}</strong> to <strong>{{ action.newStatus }}</strong>?</p>
+      <div class="field" *ngIf="action.newStatus === 'resolved' || action.newStatus === 'rejected'">
+        <label>Resolution notes</label>
+        <textarea [(ngModel)]="resolutionNotesDraft" rows="2"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button (click)="cancelAction()" class="secondary">Cancel</button>
+        <button (click)="confirmAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

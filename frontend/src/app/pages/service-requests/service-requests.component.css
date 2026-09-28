@@ -1,0 +1,204 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page h1 {
+  font-size: 1.4rem;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #374151;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
+
+.field.wide {
+  flex: 1;
+  min-width: 240px;
+}
+
+.field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.field input, .field select, .field textarea {
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-family: inherit;
+}
+
+.inline-form button {
+  padding: 0.5rem 1rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.error { color: #dc2626; margin-top: 0.5rem; font-size: 0.85rem; }
+.success { color: #16a34a; margin-top: 0.5rem; font-size: 0.85rem; }
+
+.state-msg {
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.state-msg.error { color: #dc2626; }
+
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.request-card {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.request-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  color: white;
+  text-transform: capitalize;
+}
+
+.badge.open { background: #2563eb; }
+.badge.in_progress { background: #ca8a04; }
+.badge.resolved { background: #16a34a; }
+.badge.rejected { background: #6b7280; }
+
+.flight {
+  font-weight: 700;
+}
+
+.category {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+.details {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0.15rem 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.actions select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.actions button {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  background: #374151;
+  text-transform: capitalize;
+}
+
+.actions button.resolved { background: #16a34a; }
+.actions button.rejected { background: #dc2626; }
+.actions button.in_progress { background: #ca8a04; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.modal h3 {
+  margin-bottom: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+}
+
+.modal-actions button.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}

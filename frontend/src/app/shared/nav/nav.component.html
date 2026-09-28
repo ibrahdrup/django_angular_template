@@ -1,0 +1,22 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Airport Ops</div>
+    <nav *ngIf="auth.currentUser() as user">
+      <div class="role-badge">{{ user.role.replace('_', ' ') }}</div>
+
+      <a routerLink="/dashboard" routerLinkActive="active" *ngIf="auth.hasRole('admin','gate_controller','ground_staff')">Dashboard</a>
+      <a routerLink="/service-requests" routerLinkActive="active">Service Requests</a>
+      <a routerLink="/reports/gate-assignments" routerLinkActive="active" *ngIf="auth.hasRole('admin','gate_controller','ground_staff')">Gate Report</a>
+      <a routerLink="/reports/analytics" routerLinkActive="active" *ngIf="auth.hasRole('admin','gate_controller','ground_staff')">SR Analytics</a>
+      <a routerLink="/admin/users" routerLinkActive="active" *ngIf="auth.hasRole('admin')">Manage Users</a>
+    </nav>
+    <div class="sidebar-footer" *ngIf="auth.currentUser() as user">
+      <app-session-timer></app-session-timer>
+      <div class="username">{{ user.username }}</div>
+      <button (click)="logout()">Log out</button>
+    </div>
+  </aside>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

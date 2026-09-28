@@ -1,0 +1,25 @@
+<div class="auth-page">
+  <form class="auth-card" (ngSubmit)="submit()" #form="ngForm">
+    <h1>Airport Ops — Login</h1>
+
+    <label>Username</label>
+    <input type="text" name="username" [(ngModel)]="username" required autocomplete="username" />
+
+    <label>Password</label>
+    <input type="password" name="password" [(ngModel)]="password" required autocomplete="current-password" />
+
+    <div class="error" *ngIf="error()">{{ error() }}</div>
+
+    <button type="submit" [disabled]="loading()">{{ loading() ? 'Signing in…' : 'Sign in' }}</button>
+
+    <p class="switch">No account? <a routerLink="/register">Register as passenger</a></p>
+
+    <div class="hint">
+      <strong>Demo logins:</strong>
+      <div>admin / Admin&#64;12345</div>
+      <div>gatecontroller / Controller&#64;12345</div>
+      <div>groundstaff / GroundStaff&#64;12345</div>
+      <div>passenger / Passenger&#64;12345</div>
+    </div>
+  </form>
+</div>

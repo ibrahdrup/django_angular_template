@@ -1,0 +1,100 @@
+<div class="page">
+  <h1>Service Request Analytics</h1>
+
+  <section class="card">
+    <div class="inline-form">
+      <div class="field">
+        <label>From date</label>
+        <input type="date" [(ngModel)]="fromDate" />
+      </div>
+      <div class="field">
+        <label>To date</label>
+        <input type="date" [(ngModel)]="toDate" />
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select [(ngModel)]="category">
+          <option value="">All</option>
+          <option value="food">food</option>
+          <option value="beverage">beverage</option>
+          <option value="wheelchair">wheelchair</option>
+          <option value="special_assistance">special_assistance</option>
+          <option value="medical">medical</option>
+          <option value="lost_baggage">lost_baggage</option>
+          <option value="other">other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select [(ngModel)]="status">
+          <option value="">All</option>
+          <option value="open">open</option>
+          <option value="in_progress">in_progress</option>
+          <option value="resolved">resolved</option>
+          <option value="rejected">rejected</option>
+        </select>
+      </div>
+      <button (click)="run()">Apply filters</button>
+    </div>
+    <div class="error" *ngIf="error()">{{ error() }}</div>
+  </section>
+
+  <div *ngIf="loading()" class="state-msg">Loading…</div>
+
+  <ng-container *ngIf="!loading() && data() as d">
+    <section class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Total requests</div>
+        <div class="metric-value">{{ d.total_requests }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Resolved</div>
+        <div class="metric-value">{{ d.total_resolved }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Open</div>
+        <div class="metric-value">{{ d.total_open }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Open : Resolved ratio</div>
+        <div class="metric-value">{{ d.open_vs_resolved_ratio ?? '—' }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg resolution time (min)</div>
+        <div class="metric-value">{{ d.average_resolution_minutes ?? '—' }}</div>
+      </div>
+    </section>
+
+    <section class="charts">
+      <div class="card">
+        <h2>Category breakdown</h2>
+        <div class="bar-row" *ngFor="let c of d.category_breakdown">
+          <span class="bar-label">{{ c.category }}</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="(c.count / maxCount(d.category_breakdown)) * 100"></div></div>
+          <span class="bar-count">{{ c.count }}</span>
+        </div>
+        <div *ngIf="d.category_breakdown.length === 0" class="state-msg">No data.</div>
+      </div>
+
+      <div class="card">
+        <h2>Status distribution</h2>
+        <div class="bar-row" *ngFor="let s of d.status_breakdown">
+          <span class="bar-label">{{ s.status }}</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="(s.count / maxCount(d.status_breakdown)) * 100"></div></div>
+          <span class="bar-count">{{ s.count }}</span>
+        </div>
+        <div *ngIf="d.status_breakdown.length === 0" class="state-msg">No data.</div>
+      </div>
+
+      <div class="card">
+        <h2>Requests handled per staff member</h2>
+        <div class="bar-row" *ngFor="let s of d.staff_breakdown">
+          <span class="bar-label">{{ s.assigned_to__username }}</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="(s.count / maxCount(d.staff_breakdown)) * 100"></div></div>
+          <span class="bar-count">{{ s.count }}</span>
+        </div>
+        <div *ngIf="d.staff_breakdown.length === 0" class="state-msg">No data.</div>
+      </div>
+    </section>
+  </ng-container>
+</div>

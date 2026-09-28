@@ -1,0 +1,169 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-header h1 {
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-picker label {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.date-picker input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.legend {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  color: white;
+}
+
+.chip.occupied, .assignment-card.occupied { background: #16a34a; }
+.chip.upcoming, .assignment-card.upcoming { background: #ca8a04; }
+.chip.buffer-risk, .assignment-card.buffer-risk { background: #dc2626; }
+.chip.idle, .assignment-card.idle { background: #6b7280; }
+
+.state-msg {
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.state-msg.error { color: #dc2626; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.stat-card.wide {
+  grid-column: 1 / -1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.mini-table th, .mini-table td {
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.gate-column {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  min-height: 120px;
+}
+
+.gate-column-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.5rem;
+}
+
+.gate-column-header .terminal {
+  font-size: 0.7rem;
+  color: #6b7280;
+}
+
+.gate-status {
+  font-size: 0.7rem;
+  margin-top: 0.15rem;
+  color: #16a34a;
+  text-transform: capitalize;
+}
+
+.gate-status.maint {
+  color: #dc2626;
+}
+
+.empty-slot {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  padding: 0.5rem 0;
+}
+
+.assignment-card {
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.assignment-card .flight-no {
+  font-weight: 700;
+}
+
+.assignment-card .time-window,
+.assignment-card .status-text {
+  font-size: 0.72rem;
+  opacity: 0.9;
+}

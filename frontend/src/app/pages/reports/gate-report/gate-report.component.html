@@ -1,0 +1,48 @@
+<div class="page">
+  <h1>Gate Assignment Report</h1>
+
+  <section class="card">
+    <div class="inline-form">
+      <div class="field">
+        <label>From date</label>
+        <input type="date" [(ngModel)]="fromDate" />
+      </div>
+      <div class="field">
+        <label>To date</label>
+        <input type="date" [(ngModel)]="toDate" />
+      </div>
+      <div class="field">
+        <label>Gate number (optional)</label>
+        <input type="text" [(ngModel)]="gateNumber" placeholder="e.g. A1" />
+      </div>
+      <button (click)="run()">Run report</button>
+      <button class="secondary" (click)="downloadCsv()" [disabled]="!searched()">Download CSV</button>
+    </div>
+    <div class="error" *ngIf="error()">{{ error() }}</div>
+  </section>
+
+  <div *ngIf="loading()" class="state-msg">Loading…</div>
+
+  <section class="card" *ngIf="!loading() && searched()">
+    <div *ngIf="rows().length === 0" class="state-msg">No gate assignments found for this range.</div>
+    <table class="report-table" *ngIf="rows().length > 0">
+      <thead>
+        <tr>
+          <th>Date</th><th>Gate</th><th>Flight</th><th>Airline</th><th>Start</th><th>End</th><th>Duration (min)</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of rows()">
+          <td>{{ r.date }}</td>
+          <td>{{ r.gate_number }}</td>
+          <td>{{ r.flight_no }}</td>
+          <td>{{ r.airline }}</td>
+          <td>{{ r.start_time | date:'short' }}</td>
+          <td>{{ r.end_time | date:'short' }}</td>
+          <td>{{ r.duration_minutes }}</td>
+          <td>{{ r.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

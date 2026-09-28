@@ -1,0 +1,59 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Staff Dashboard</h1>
+    <div class="date-picker">
+      <label for="date">Operational date</label>
+      <input id="date" type="date" [ngModel]="selectedDate()" (ngModelChange)="onDateChange($event)" />
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="chip occupied">Green — currently occupied</span>
+    <span class="chip upcoming">Yellow — upcoming within 2h</span>
+    <span class="chip buffer-risk">Red — back-to-back (min buffer)</span>
+    <span class="chip idle">Gray — available / under maintenance</span>
+  </div>
+
+  <div *ngIf="loading()" class="state-msg">Loading gate assignments…</div>
+  <div *ngIf="error()" class="state-msg error">{{ error() }}</div>
+
+  <section class="stats" *ngIf="!loading()">
+    <div class="stat-card">
+      <div class="stat-label">Most utilised gate</div>
+      <div class="stat-value">{{ utilisationStats().mostUtilised }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Peak time period</div>
+      <div class="stat-value">{{ utilisationStats().peakHour }}</div>
+    </div>
+    <div class="stat-card wide">
+      <div class="stat-label">Assignments &amp; avg duration per gate</div>
+      <table class="mini-table">
+        <thead><tr><th>Gate</th><th>Assignments</th><th>Avg duration (min)</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let s of utilisationStats().gateStats">
+            <td>{{ s.gate_number }}</td>
+            <td>{{ s.count }}</td>
+            <td>{{ s.avgDurationMinutes }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid" *ngIf="!loading() && !error()">
+    <div class="gate-column" *ngFor="let col of gateColumns()">
+      <div class="gate-column-header">
+        <strong>{{ col.gate.gate_number }}</strong>
+        <span class="terminal">{{ col.gate.terminal }} · {{ col.gate.gate_type }}</span>
+        <span class="gate-status" [class.maint]="col.gate.status !== 'operational'">{{ col.gate.status }}</span>
+      </div>
+      <div *ngIf="col.assignments.length === 0" class="empty-slot">No assignments</div>
+      <div class="assignment-card" *ngFor="let a of col.assignments" [ngClass]="a.colorClass" [title]="a.colorLabel">
+        <div class="flight-no">{{ a.flight_no }}</div>
+        <div class="time-window">{{ a.start_time | date:'HH:mm' }} – {{ a.end_time | date:'HH:mm' }}</div>
+        <div class="status-text">{{ a.status }}</div>
+      </div>
+    </div>
+  </section>
+</div>

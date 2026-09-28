@@ -1,0 +1,24 @@
+<div class="auth-page">
+  <form class="auth-card" (ngSubmit)="submit()" #form="ngForm">
+    <h1>Register (Passenger)</h1>
+
+    <label>Username</label>
+    <input type="text" name="username" [(ngModel)]="username" required autocomplete="username" />
+
+    <label>Email</label>
+    <input type="email" name="email" [(ngModel)]="email" required autocomplete="email" />
+
+    <label>Password</label>
+    <input type="password" name="password" [(ngModel)]="password" required autocomplete="new-password" />
+
+    <label>Confirm Password</label>
+    <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required autocomplete="new-password" />
+
+    <div class="error" *ngIf="error()">{{ error() }}</div>
+    <div class="success" *ngIf="success()">Account created! Redirecting to login…</div>
+
+    <button type="submit" [disabled]="loading()">{{ loading() ? 'Creating…' : 'Create account' }}</button>
+
+    <p class="switch">Already have an account? <a routerLink="/login">Log in</a></p>
+  </form>
+</div>
